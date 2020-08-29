@@ -1,8 +1,8 @@
 # Export and Import
 
-Export and import directives have several syntax variants.
+Le indicazioni sull'esportazione e l'importazione hanno varie varianti sulla sintassi.
 
-In the previous chapter we saw a simple use, now let's explore more examples.
+Nello scorso capitolo ne abbiamo visto un semplice uso, adesso esploriamo più esempi.
 
 ## Export before declarations
 
