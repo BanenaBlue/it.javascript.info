@@ -1,19 +1,19 @@
 
 # The "new Function" syntax
 
-There's one more way to create a function. It's rarely used, but sometimes there's no alternative.
+C'è un modo in più per creare una funzione. E' raramente usato, ma talvolyta non c'è alternativa.
 
 ## Syntax
 
-The syntax for creating a function:
+La sintassi per creare una funzione:
 
 ```js
 let func = new Function ([arg1, arg2, ...argN], functionBody);
 ```
 
-The function is created with the arguments `arg1...argN` and the given `functionBody`.
+La funzione è creata con gli argomenti `arg1...argN` e la data `functionBody`.
 
-It's easier to understand by looking at an example. Here's a function with two arguments:
+E' più facile da capire se si guarda l'esempio. Ecco una funzione con 2 argomenti:
 
 ```js run
 let sum = new Function('a', 'b', 'return a + b');
@@ -21,7 +21,7 @@ let sum = new Function('a', 'b', 'return a + b');
 alert( sum(1, 2) ); // 3
 ```
 
-And here there's a function without arguments, with only the function body:
+E qua c'è una funzione senza argomenti, solo con il corpo della funzione:
 
 ```js run
 let sayHi = new Function('alert("Hello")');
@@ -29,11 +29,11 @@ let sayHi = new Function('alert("Hello")');
 sayHi(); // Hello
 ```
 
-The major difference from other ways we've seen is that the function is created literally from a string, that is passed at run time.
+Ciò che rende diverso questo metodo dagli altri è che la funzione è creata letteralmente da una stringa, che è eseguita quando il codice viene eseguito.
 
-All previous declarations required us, programmers, to write the function code in the script.
+Tutte le altre maniere di dichiarare una funzione richiedevano di scrivere la funzione direttamente nel codice.
 
-But `new Function` allows to turn any string into a function. For example, we can receive a new function from a server and then execute it:
+Ma il pezzo di codice `new Function` permette di trasformare qualsiasi stringa in una funzione. Per esempio, possiamo ricevere una nuova funzione dal server e poi eseguirla:
 
 ```js
 let str = ... receive the code from a server dynamically ...
@@ -42,15 +42,15 @@ let func = new Function(str);
 func();
 ```
 
-It is used in very specific cases, like when we receive code from a server, or to dynamically compile a function from a template, in complex web-applications.
+E' usato in casi veramente specifici, come quando riceviamo codice da un server, o quando compiliamo dinamicamente una funzione da un template, in web-applications più complesse.
 
 ## Closure
 
-Usually, a function remembers where it was born in the special property `[[Environment]]`. It references the Lexical Environment from where it's created  (we covered that in the chapter <info:closure>).
+Di solito, una funzione ricorda dov'è stata creata nella proprietà `[[Environment]]`. Si riferisce all'ambiente lessicale nel quale è stata creata (abbiamo trattato questo argomento nel capitolo <info:closure>).
 
-But when a function is created using `new Function`, its `[[Environment]]` is set to reference not the current Lexical Environment, but the global one.
+Ma quando una funzione è creata usando `new Function`, il suo `[[Environment]]` cerca la funzione non nell'ambiente lessicale, ma nell'ambiente globale.
 
-So, such function doesn't have access to outer variables, only to the global ones.
+Quindi, una funzione del genere non deve avere accesso a variabili esterne, ma solo alle variabili globali.
 
 ```js run
 function getFunc() {
@@ -66,7 +66,7 @@ function getFunc() {
 getFunc()(); // error: value is not defined
 ```
 
-Compare it with the regular behavior:
+Comparalo con la maniera tradizionale:
 
 ```js run
 function getFunc() {
@@ -82,25 +82,26 @@ function getFunc() {
 getFunc()(); // *!*"test"*/!*, from the Lexical Environment of getFunc
 ```
 
-This special feature of `new Function` looks strange, but appears very useful in practice.
+Questa feature può apparire strana, ma a livello pratico è molto utile.
 
-Imagine that we must create a function from a string. The code of that function is not known at the time of writing the script (that's why we don't use regular functions), but will be known in the process of execution. We may receive it from the server or from another source.
+Immagina che dobbiamo creare una funzione partendo da una stringa. Il codice di quella funzione non è conosciuta al tempo di stesura del programma (per questo non usiamo funzioni nella maniera classica), ma verrà conosciuto quando il codice verrà eseguito. Potremmo riceverlo dal server o da un'altra fonte.
 
-Our new function needs to interact with the main script.
+La nostra funzione ha bisogno di interagire con il codice principale.
 
-What if it could access the outer variables?
+Cosa succederebbe se tu potessi accedere alle variabili esterne?
 
-The problem is that before JavaScript is published to production, it's compressed using a *minifier* -- a special program that shrinks code by removing extra comments, spaces and -- what's important, renames local variables into shorter ones.
+Il problema è che prima di Javascript sia stato pubblicato, è stato compresso usando un *minifier* -- un programma speciale che restringe il codice rimuovendo commenti extra, spazi e -- soprattutto, rinomina le variabili locali con nomi più corti.
 
-For instance, if a function has `let userName`, minifier replaces it `let a` (or another letter if this one is occupied), and does it everywhere. That's usually a safe thing to do, because the variable is local, nothing outside the function can access it. And inside the function, minifier replaces every mention of it. Minifiers are smart, they analyze the code structure, so they don't break anything. They're not just a dumb find-and-replace.
+Per esempio, se una funzione ha `ler userName`, minifier lo rimpiazza con `let a` (oppure un'altra lettera se questa è già stata presa), e lo fa dappertutto. Di solito è una cosa sicura da fare, perchè la variabile è locale, niente al di fuori della funzione può accederci. E dentro la funzione, minifier rimpiazza tutte le menzioni di esso. I minifiers sono smart, analizzano la struttura del codice, così non fanno danni. Non sono solo semplici trova-e-rimpiazza.
 
-So if `new Function` had access to outer variables, it would be unable to find renamed  `userName`.
+Quindi se `new Function` avesse accesso a variabili esterne, non sarebbe in grado di trovate `userName`.
 
-**If `new Function` had access to outer variables, it would have problems with minifiers.**
+**Se `new Function` avesse accesso a variabili esterne, avrebbe problemi con il minifier.**
 
-Besides, such code would be architecturally bad and prone to errors.
+Inoltre, un codice del genere sarebbe architetturalmente brutto e incline ad errori.
 
 To pass something to a function, created as `new Function`, we should use its arguments.
+Per passare qualcosa ad una funzione, creata come `new Function`, dovremmo usare i suoi argomenti.
 
 ## Summary
 
@@ -110,9 +111,9 @@ The syntax:
 let func = new Function ([arg1, arg2, ...argN], functionBody);
 ```
 
-For historical reasons, arguments can also be given as a comma-separated list.
+Per ragioni storiche, gli argomenti possono essere anche dati come una lista separata da virgole.
 
-These three declarations mean the same:
+Queste tre stringhe di codice significano la stessa cosa:
 
 ```js
 new Function('a', 'b', 'return a + b'); // basic syntax
@@ -120,4 +121,4 @@ new Function('a,b', 'return a + b'); // comma-separated
 new Function('a , b', 'return a + b'); // comma-separated with spaces
 ```
 
-Functions created with `new Function`, have `[[Environment]]` referencing the global Lexical Environment, not the outer one. Hence, they cannot use outer variables. But that's actually good, because it insures us from errors. Passing parameters explicitly is a much better method architecturally and causes no problems with minifiers.
+Le funzioni create con `new Function`, hanno `[[Environment]]` che si riferisce all'ambiente lessicale globale, non quello esterno. Quindi, non possono usare variabili esterne. Ma questa è una buona cosa, perchè assicura la mancanza di errori. Passare parametri esplicitamente è un metodo migliore architettonicamente e non causa problemi con i minifiers.
