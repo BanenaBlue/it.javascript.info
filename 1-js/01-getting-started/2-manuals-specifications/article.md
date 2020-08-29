@@ -1,17 +1,17 @@
 
 # Manuals and specifications
 
-This book is a *tutorial*. It aims to help you gradually learn the language. But once you're familiar with the basics, you'll need other sources.
+Questo libro è un *tutorial*. Il suo scopo è aiutarti a imparare gradualmente il linguaggio di programmazione, ma una volta che saprai le basi, avrai bisogno di altre risorse per imparare i concetti più avanzati.
 
 ## Specification
 
-**The ECMA-262 specification** contains the most in-depth, detailed and formalized information about JavaScript. It defines the language.
+**La documentazione ECMA-262** contiene le più accurate, dettagliate e ufficializzate informazioni su Javascript. Definisce il linguaggio.
 
-But being that formalized, it's difficult to understand at first. So if you need the most trustworthy source of information about the language details, the specification is the right place. But it's not for everyday use.
+Essendo la versione ufficiale, è difficile capirla subito, quindi se vuoi la fonte di informazioni più affidabile riguardo i dettagli del linguaggio, la documentazione ufficiale è il posto giusto, ma non conviene usarla se servono subito informazioni.
 
-The latest draft is at <https://tc39.es/ecma262/>.
+L'ultima versione della documentazione ufficiale è al seguente link: <https://tc39.es/ecma262/>.
 
-To read about new bleeding-edge features, including those that are "almost standard" (so-called "stage 3"), see proposals at <https://github.com/tc39/proposals>.
+Per leggere gli ultimi aggiornamenti, anche quelli che sono "quasi standard" (chiamati "livello 3"), guarda i suggerimenti al seguente link: <https://github.com/tc39/proposals>.
 
 Also, if you're in developing for the browser, then there are other specs covered in the [second part](info:browser-environment) of the tutorial.
 
